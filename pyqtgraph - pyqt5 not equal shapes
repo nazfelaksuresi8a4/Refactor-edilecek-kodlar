@@ -1,0 +1,27 @@
+import sys
+import numpy as np
+from PyQt5.QtWidgets import QApplication, QMainWindow
+import pyqtgraph as pg
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.plotWidget = pg.PlotWidget()
+        self.setCentralWidget(self.plotWidget)
+
+        # np.int8 ve np.float64 dizileri, ama farklı uzunlukta!
+        x = np.array([1, 2, 3], dtype=np.int8)                 # Uzunluk 3
+        y = np.array([1.0, 4.0, 9.0, 16.0], dtype=np.float64) # Uzunluk 4
+
+        # Burada hata çıkacak!
+        try:
+            self.plotWidget.plot(x, y)
+        except ValueError as e:
+            print("Hata:", e)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    w = MainWindow()
+    w.show()
+    sys.exit(app.exec_())
